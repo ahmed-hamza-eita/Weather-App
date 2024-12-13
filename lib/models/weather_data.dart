@@ -1,107 +1,87 @@
 class WeatherData {
   Location location;
   Current current;
+  Forecast forecast;
 
   WeatherData({
     required this.location,
     required this.current,
+    required this.forecast,
   });
 
-  factory WeatherData.fromJson(Map<String, dynamic> json) => WeatherData(
-    location: Location.fromJson(json["location"]),
-    current: Current.fromJson(json["current"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "location": location.toJson(),
-    "current": current.toJson(),
-  };
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
+      location: Location.fromJson(json['location']),
+      current: Current.fromJson(json['current']),
+      forecast: Forecast.fromJson(json['forecast']),
+    );
+  }
 }
 
 class Location {
   String name;
-  String localtime;
 
-  Location({
-    required this.name,
-    required this.localtime,
-  });
+  Location({required this.name});
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-    name: json["name"],
-    localtime: json["localtime"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "localtime": localtime,
-  };
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      name: json['name'],
+    );
+  }
 }
 
 class Current {
   String lastUpdated;
   double tempC;
+  int isDay;
   Condition condition;
-  Forecast? forecast;
 
   Current({
     required this.lastUpdated,
     required this.tempC,
+    required this.isDay,
     required this.condition,
-    this.forecast,
   });
 
-  factory Current.fromJson(Map<String, dynamic> json) => Current(
-    lastUpdated: json["last_updated"],
-    tempC: json["temp_c"]?.toDouble(),
-    condition: Condition.fromJson(json["condition"]),
-    forecast: json.containsKey("forecast") ? Forecast.fromJson(json["forecast"]) : null,
-  );
-
-  Map<String, dynamic> toJson() => {
-    "last_updated": lastUpdated,
-    "temp_c": tempC,
-    "condition": condition.toJson(),
-    if (forecast != null) "forecast": forecast?.toJson(),
-  };
+  factory Current.fromJson(Map<String, dynamic> json) {
+    return Current(
+      lastUpdated: json['last_updated'],
+      tempC: json['temp_c'],
+      isDay: json['is_day'],
+      condition: Condition.fromJson(json['condition']),
+    );
+  }
 }
 
 class Condition {
-  String? text; // Changed to String? as it can be null
+  String text;
   String icon;
 
-
   Condition({
-    this.text,
+    required this.text,
     required this.icon,
   });
 
-  factory Condition.fromJson(Map<String, dynamic> json) => Condition(
-    text: json["text"],
-    icon: json["icon"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    if (text != null) "text": text,
-    "icon": icon,
-
-  };
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      text: json['text'],
+      icon: json['icon'],
+    );
+  }
 }
 
 class Forecast {
-  List<ForecastDay> forecastday;
+  List<ForecastDay> forecastDay;
 
-  Forecast({required this.forecastday});
+  Forecast({required this.forecastDay});
 
-  factory Forecast.fromJson(Map<String, dynamic> json) => Forecast(
-    forecastday: (json['forecastday'] as List)
-        .map((e) => ForecastDay.fromJson(e))
-        .toList(),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "forecastday": forecastday.map((e) => e.toJson()).toList(),
-  };
+  factory Forecast.fromJson(Map<String, dynamic> json) {
+    return Forecast(
+      forecastDay: (json['forecastday'] as List)
+          .map((item) => ForecastDay.fromJson(item))
+          .toList(),
+    );
+  }
 }
 
 class ForecastDay {
@@ -110,41 +90,34 @@ class ForecastDay {
 
   ForecastDay({required this.date, required this.day});
 
-  factory ForecastDay.fromJson(Map<String, dynamic> json) => ForecastDay(
-    date: json["date"],
-    day: Day.fromJson(json["day"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "date": date,
-    "day": day.toJson(),
-  };
+  factory ForecastDay.fromJson(Map<String, dynamic> json) {
+    return ForecastDay(
+      date: json['date'],
+      day: Day.fromJson(json['day']),
+    );
+  }
 }
-
 class Day {
   double maxtempC;
   double mintempC;
   double avgtempC;
-  Condition condition;
 
   Day({
     required this.maxtempC,
     required this.mintempC,
     required this.avgtempC,
-    required this.condition,
   });
 
-  factory Day.fromJson(Map<String, dynamic> json) => Day(
-    maxtempC: json["maxtemp_c"]?.toDouble(),
-    mintempC: json["mintemp_c"]?.toDouble(),
-    avgtempC: json["avgtemp_c"]?.toDouble(),
-    condition: Condition.fromJson(json["condition"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "maxtemp_c": maxtempC,
-    "mintemp_c": mintempC,
-    "avgtemp_c": avgtempC,
-    "condition": condition.toJson(),
-  };
+  factory Day.fromJson(Map<String, dynamic> json) {
+    return Day(
+      maxtempC: json['maxtemp_c'],
+      mintempC: json['mintemp_c'],
+      avgtempC: json['avgtemp_c'],
+    );
+  }
 }
+// final weatherData = WeatherData.fromJson(json);
+// print("Location: ${weatherData.location.name}");
+// print("Temperature: ${weatherData.current.tempC}°C");
+// print("Condition: ${weatherData.current.condition.text}");
+// print("Forecast Max Temp: ${weatherData.forecast.forecastDay[0].day.maxtempC}°C");
