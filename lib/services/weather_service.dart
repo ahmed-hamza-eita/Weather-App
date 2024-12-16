@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:weather_app/models/weather_data.dart';
 
 class WeatherService {
@@ -13,21 +14,15 @@ class WeatherService {
     try {
       var response = await dio
           .get("$baseUrl/v1/forecast.json?key=$apiKey&q=$cityName&days=1");
-
-      if (response.statusCode == 201) {
-        WeatherData weatherData = WeatherData.fromJson(response.data);
-
-        return weatherData;
-      } else {
-        final String errorMsg = response.data['error']['message'];
-        throw Exception(errorMsg);
-      }
+      WeatherData weatherData = WeatherData.fromJson(response.data);
+      return weatherData;
+    } on DioException catch (e) {
+      final String errorMessage = e.response?.data['error']
+          ['message']; // ? means if response is null, don't throw an error
+      throw Exception(errorMessage);
     } catch (e) {
-      if (kDebugMode) {
-        print("Error fetching weather data: $e");
-      }
-
-      rethrow;
+      log(e.toString());
+      throw Exception("oops! Something went wrong");
     }
   }
 }
