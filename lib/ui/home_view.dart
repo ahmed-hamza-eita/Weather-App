@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/cubits/get_weather_cubit/get_weather_cubit.dart';
 import 'package:weather_app/cubits/get_weather_cubit/get_weather_state.dart';
 import 'package:weather_app/models/weather_data.dart';
+import 'package:weather_app/widgets/custom_progress_loading.dart';
 import 'package:weather_app/widgets/no_weather_body.dart';
 import 'package:weather_app/widgets/weather_info_body.dart';
 
@@ -38,9 +39,12 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<GetWeatherCubit, WeatherState>(builder: (context, state) {
+      body:
+          BlocBuilder<GetWeatherCubit, WeatherState>(builder: (context, state) {
         if (state is WeatherInitialState) {
           return const NoWeatherBody();
+        } else if (state is WeatherLoadingState) {
+          return const CustomProgressLoading();
         } else if (state is WeatherLoadedState) {
           return WeatherInfoBody(
             weatherData: WeatherData(
