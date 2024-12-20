@@ -138,3 +138,7 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 !.vscode/settings.json
+
+# "JSON to Dart Model" generator tracker files locations.
+/.json_models/
+models.jsonc

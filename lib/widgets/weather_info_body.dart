@@ -10,7 +10,7 @@ class WeatherInfoBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        color: Colors.lightBlue,
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -36,20 +36,24 @@ class WeatherInfoBody extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(
-                      "Max: ${weatherData.forecast.forecastDay[1].day.maxtempC}°C",
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    Text(
-                      "Min: ${weatherData.forecast.forecastDay[0].day.mintempC}°C",
-                      style: const TextStyle(fontSize: 18),
-                    ),
+                    if (weatherData.forecast.forecastDay.isNotEmpty)
+                      Text(
+                        "Max: ${weatherData.forecast.forecastDay[0].day.maxtempC}°C",
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    if (weatherData.forecast.forecastDay.isNotEmpty)
+                      Text(
+                        "Min: ${weatherData.forecast.forecastDay[0].day.mintempC}°C",
+                        style: const TextStyle(fontSize: 18),
+                      ),
                   ],
                 )
               ],
             ),
-            const Text("Clear Sky",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              weatherData.current.condition.text,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

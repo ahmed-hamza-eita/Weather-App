@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/models/weather_data.dart';
+import 'package:weather_app/services/weather_service.dart';
 
 class CitySearchView extends StatelessWidget {
   const CitySearchView({super.key});
@@ -13,7 +16,11 @@ class CitySearchView extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: TextField(
-            onSubmitted: (value) {},
+            onSubmitted: (value) async {
+              data = await WeatherService(Dio())
+                  .getCurrentWeather(cityName: value);
+              Navigator.of(context).pop();
+            },
             decoration: InputDecoration(
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
@@ -31,3 +38,5 @@ class CitySearchView extends StatelessWidget {
     );
   }
 }
+
+WeatherData? data;
