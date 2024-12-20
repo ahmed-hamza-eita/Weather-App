@@ -17,7 +17,7 @@ class CitySearchView extends StatelessWidget {
         child: Center(
           child: TextField(
             onSubmitted: (value) async {
-              data = await WeatherService(Dio())
+              await WeatherService(Dio())
                   .getCurrentWeather(cityName: value);
               Navigator.of(context).pop();
             },
@@ -39,4 +39,4 @@ class CitySearchView extends StatelessWidget {
   }
 }
 
-WeatherData? data;
+

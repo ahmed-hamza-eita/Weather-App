@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/no_weather_body.dart';
-import 'package:weather_app/widgets/weather_info_body.dart';
 
 import 'city_search_view.dart';
 
@@ -34,7 +33,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      body: data == null ? const NoWeatherBody() : WeatherInfoBody(weatherData: data!),
+      body: NoWeatherBody(),
     );
   }
 }
