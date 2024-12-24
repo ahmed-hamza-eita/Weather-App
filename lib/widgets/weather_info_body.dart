@@ -21,7 +21,7 @@ class WeatherInfoBody extends StatelessWidget {
               style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
             Text(
-              "Updated at: ${weatherData.current.lastUpdated}",
+              "Updated at: ${weatherData.current.lastUpdated.hour}:${weatherData.current.lastUpdated.minute}",
               style: const TextStyle(fontSize: 14),
             ),
             Row(

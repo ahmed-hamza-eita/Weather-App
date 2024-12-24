@@ -31,7 +31,7 @@ class Location {
 }
 
 class Current {
-  String lastUpdated;
+  DateTime lastUpdated;
   double tempC;
   int isDay;
   Condition condition;
@@ -45,7 +45,7 @@ class Current {
 
   factory Current.fromJson(Map<String, dynamic> json) {
     return Current(
-      lastUpdated: json['last_updated'],
+      lastUpdated: DateTime.parse(json['last_updated']),
       tempC: json['temp_c'],
       isDay: json['is_day'],
       condition: Condition.fromJson(json['condition']),
@@ -97,6 +97,7 @@ class ForecastDay {
     );
   }
 }
+
 class Day {
   double maxtempC;
   double mintempC;
