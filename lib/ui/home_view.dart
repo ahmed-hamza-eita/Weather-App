@@ -14,49 +14,28 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return const CitySearchView();
-                }),
-              );
-            },
-          )
-        ],
-        backgroundColor: Colors.blue,
-        title: const Text(
-          'Weather App',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
-      body:
-          BlocBuilder<GetWeatherCubit, WeatherState>(builder: (context, state) {
-        if (state is WeatherInitialState) {
-          return const NoWeatherBody();
-        } else if (state is WeatherLoadingState) {
-          return const CustomProgressLoading();
-        } else if (state is WeatherLoadedState) {
-          return WeatherInfoBody(
-            weatherData: WeatherData(
-              location: state.weatherData.location,
-              current: state.weatherData.current,
-              forecast: state.weatherData.forecast,
-            ),
-          );
-        } else {
-          return const Text("Error");
-        }
-      }),
-    );
+    return Scaffold(appBar: AppBar(actions: [
+      IconButton(
+        icon: const Icon(Icons.search, color: Colors.white,), onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return const CitySearchView();
+        }),);
+      },)
+    ],
+      backgroundColor: Colors.blue,
+      title: const Text(
+        'Weather App', style: TextStyle(color: Colors.white,),),),
+      body: BlocBuilder<GetWeatherCubit, WeatherState>(
+          builder: (context, state) {
+            if (state is WeatherInitialState) {
+              return const NoWeatherBody();
+            } else if (state is WeatherLoadingState) {
+              return const CustomProgressLoading();
+            } else if (state is WeatherLoadedState) {
+              return const WeatherInfoBody();
+            } else {
+            return const Text("Error");
+            }
+          }),);
   }
 }
